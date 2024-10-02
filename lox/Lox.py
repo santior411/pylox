@@ -2,6 +2,8 @@ import sys
 import os
 
 class Lox:
+	hadError = False
+	
 	def __init__(self):
 		pass
 	
@@ -35,6 +37,8 @@ class Lox:
 		file1 = open(filePath, "r+")
 		lines = file1.readlines()
 		self.run(lines)
+		if hadError:
+			sys.exit(1)
 	
 	def runPrompt(self):
 		"""
@@ -48,6 +52,8 @@ class Lox:
 			if line == None:
 				break
 			self.run(line)
+			# reset error flag so that session is not killed
+			hadError = False
 	
 	def run(self, source):
 		"""
@@ -62,6 +68,30 @@ class Lox:
 		for token in tokens:
 			print(token)
 	
-	
+	def error(self, line, message):
+		"""
+		Report an error.
+		:param int line: line number where error ocurred.
+		:param String message: error message.
 		
+		"""
+		
+		self.report(line, "", message)
+	
+	def report(self, line, where, message):
+		"""
+		Report an error on terminal executing script.
+		:param int line: line number where error ocurred.
+		:param String where: 
+		:param String message: error message.
+		
+		
+		"""
+		
+		print(f"[line {line}] ERROR {where}: {message}"
+		hadError = True
+	
+	
+	
+		 
 		
